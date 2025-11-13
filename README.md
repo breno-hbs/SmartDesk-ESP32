@@ -17,6 +17,14 @@ As informações são mostradas no **Monitor Serial**, e o circuito foi desenvol
 
 ---
 
+🌐 Conectividade (MQTT/HTTP)
+Na versão física (com ESP32 real), o projeto pode enviar as leituras de temperatura, umidade e luminosidade
+para um servidor MQTT ou via protocolo HTTP.  
+Assim, seria possível monitorar o ambiente em tempo real em um dashboard ou aplicativo web,
+integrando o SmartDesk com sistemas de gestão de conforto e produtividade.
+
+---
+
 ## 🔧 Componentes usados
 - ESP32  
 - Sensor DHT22 (temperatura e umidade)  
@@ -33,12 +41,16 @@ As informações são mostradas no **Monitor Serial**, e o circuito foi desenvol
 
 Link da simulação: https://wokwi.com/projects/447462756615539713
 
+---
+
 ## Arquivos relevantes
 - `edge/smartdesk.ino` — código (versão para simulação)
 - `edge/wokwi_link.txt` — link da simulação
 - `images/` — screenshots do circuito 
 - `ppt/` — slides para o vídeo
 - `video/` — link do vídeo no YouTube (inserir após envio)
+
+---
 
 ## 👨‍💻 Autor
 **Breno Henrique Bortoloti — RM562856**  
