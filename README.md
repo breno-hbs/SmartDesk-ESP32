@@ -33,6 +33,10 @@ integrando o SmartDesk com sistemas de gestão de conforto e produtividade.
 - 3 LEDs (verde, amarelo e vermelho)  
 - Resistores
 
+## 📦 Bibliotecas utilizadas
+- `DHT.h` — para leitura de temperatura e umidade (sensor DHT22)
+- `Adafruit_Sensor.h` — suporte interno da biblioteca DHT
+
 ---
 
 ## Como testar no Wokwi
