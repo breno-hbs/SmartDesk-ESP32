@@ -11,6 +11,18 @@
 
 #include <DHT.h>
 
+// As bibliotecas que seriam usadas em um ambiente real seriam:
+// #include <WiFi.h>
+// #include <PubSubClient.h>  // Para MQTT
+// ou, para HTTP:
+// #include <HTTPClient.h>
+
+// ----- Configuração de Rede (Simulada) -----
+// const char* ssid = "RedeWiFi";
+// const char* password = "SenhaWiFi";
+// const char* mqtt_server = "broker.hivemq.com";  
+
+
 // Definindo os pinos dos componentes
 #define PINO_DHT 15
 #define TIPO_DHT DHT22
@@ -32,6 +44,19 @@ void setup() {
   pinMode(LED_VERMELHO, OUTPUT);
 
   Serial.println("Sistema SmartDesk iniciado!");
+
+  // ----- Conexão Wi-Fi (Simulada) -----
+  // Serial.println("Conectando ao Wi-Fi...");
+  // WiFi.begin(ssid, password);
+  // while (WiFi.status() != WL_CONNECTED) {
+  //   delay(500);
+  //   Serial.print(".");
+  // }
+  // Serial.println("\nWi-Fi conectado!");
+
+  // ----- Configuração MQTT (Simulada) -----
+  // client.setServer(mqtt_server, 1883);
+  // client.connect("SmartDeskClient");
 }
 
 void loop() {
@@ -47,6 +72,22 @@ void loop() {
   Serial.print(umidade);
   Serial.print("% | Luz: ");
   Serial.println(luz);
+
+    // ----- Envio MQTT / HTTP (Simulado) -----
+  // Aqui o ESP32 enviaria os dados para a nuvem.
+  // Exemplo via MQTT:
+  // String payload = String("{\"temperatura\":") + temperatura +
+  //                 ",\"umidade\":" + umidade +
+  //                 ",\"luz\":" + luz + "}";
+  // client.publish("smartdesk/dados", payload.c_str());
+
+  // Exemplo via HTTP:
+  // HTTPClient http;
+  // http.begin("https://api.smartdesk.io/data");
+  // http.addHeader("Content-Type", "application/json");
+  // int httpResponseCode = http.POST(payload);
+  // http.end();
+
 
   // Lógica para acender os LEDs de acordo com as condições do ambiente
   if (temperatura > 26 || umidade < 40 || luz < 500) {
@@ -71,4 +112,10 @@ void loop() {
   delay(2000); // Espera 2 segundos antes de fazer nova leitura
 }
 
+// ----- Observação -----
+// Este projeto foi desenvolvido e testado no simulador Wokwi.
+// O envio MQTT/HTTP está descrito apenas de forma conceitual,
+// já que o ambiente de simulação não permite comunicação real com a internet.
+// Em um dispositivo físico, bastaria descomentar os blocos de código
+// e configurar as credenciais corretas.
 
