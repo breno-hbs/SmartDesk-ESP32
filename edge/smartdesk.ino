@@ -1,81 +1,63 @@
-// smartdesk.ino
-#include <WiFi.h>
-#include <PubSubClient.h>
-#include "DHTesp.h"
+#include <DHT.h>
 
-const char* ssid = "Wokwi-GUEST";
-const char* mqtt_server = "test.mosquitto.org";
+// Definindo os pinos dos componentes
+#define PINO_DHT 15
+#define TIPO_DHT DHT22
+#define PINO_LDR 34
+#define LED_VERDE 25
+#define LED_AMARELO 26
+#define LED_VERMELHO 27
 
-DHTesp dht;
-WiFiClient espClient;
-PubSubClient client(espClient);
-
-// Pinos - ajuste se necessário conforme seu wiring no Wokwi
-const int DHT_PIN = 15;
-const int LDR_PIN = 34;
-const int LED_GREEN = 25;
-const int LED_YELLOW = 26;
-const int LED_RED = 27;
-
-void setup_wifi() {
-  WiFi.begin(ssid);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-  }
-}
-
-void reconnect() {
-  while (!client.connected()) {
-    if (client.connect("SmartDeskESP32")) {
-      // conectado
-    } else {
-      delay(2000);
-    }
-  }
-}
+// Criando o sensor DHT
+DHT sensorDHT(PINO_DHT, TIPO_DHT);
 
 void setup() {
-  Serial.begin(115200);
-  pinMode(LED_GREEN, OUTPUT);
-  pinMode(LED_YELLOW, OUTPUT);
-  pinMode(LED_RED, OUTPUT);
-  dht.setup(DHT_PIN, DHTesp::DHT22);
+  Serial.begin(115200); // Inicia o monitor serial
+  sensorDHT.begin(); // Inicia o sensor de temperatura e umidade
 
-  setup_wifi();
-  client.setServer(mqtt_server, 1883);
+  // Define os pinos dos LEDs como saída
+  pinMode(LED_VERDE, OUTPUT);
+  pinMode(LED_AMARELO, OUTPUT);
+  pinMode(LED_VERMELHO, OUTPUT);
+
+  Serial.println("Sistema SmartDesk iniciado!");
 }
 
 void loop() {
-  if (!client.connected()) reconnect();
-  client.loop();
+  // Lê os dados do sensor DHT
+  float temperatura = sensorDHT.readTemperature();
+  float umidade = sensorDHT.readHumidity();
+  int luz = analogRead(PINO_LDR);
 
-  TempAndHumidity data = dht.getTempAndHumidity();
-  int lightLevel = analogRead(LDR_PIN);
+  // Mostra os dados no monitor serial
+  Serial.print("Temperatura: ");
+  Serial.print(temperatura);
+  Serial.print(" °C | Umidade: ");
+  Serial.print(umidade);
+  Serial.print("% | Luz: ");
+  Serial.println(luz);
 
-  bool temp_ok = (data.temperature >= 21 && data.temperature <= 26);
-  bool hum_ok = (data.humidity >= 40 && data.humidity <= 60);
-  bool light_ok = (lightLevel > 800); // ajustar conforme leitura no Wokwi
-
-  if (temp_ok && hum_ok && light_ok) {
-    digitalWrite(LED_GREEN, HIGH);
-    digitalWrite(LED_YELLOW, LOW);
-    digitalWrite(LED_RED, LOW);
-  } else if (temp_ok || hum_ok || light_ok) {
-    digitalWrite(LED_GREEN, LOW);
-    digitalWrite(LED_YELLOW, HIGH);
-    digitalWrite(LED_RED, LOW);
-  } else {
-    digitalWrite(LED_GREEN, LOW);
-    digitalWrite(LED_YELLOW, LOW);
-    digitalWrite(LED_RED, HIGH);
-    client.publish("smartdesk/alerts", "FAÇA UMA PAUSA: Condicoes ruins detectadas");
+  // Lógica para acender os LEDs de acordo com as condições do ambiente
+  if (temperatura > 26 || umidade < 40 || luz < 500) {
+    // Ambiente ruim
+    digitalWrite(LED_VERMELHO, HIGH);
+    digitalWrite(LED_AMARELO, LOW);
+    digitalWrite(LED_VERDE, LOW);
+  } 
+  else if (temperatura > 23 || luz < 800) {
+    // Ambiente mais ou menos
+    digitalWrite(LED_AMARELO, HIGH);
+    digitalWrite(LED_VERMELHO, LOW);
+    digitalWrite(LED_VERDE, LOW);
+  } 
+  else {
+    // Ambiente ideal
+    digitalWrite(LED_VERDE, HIGH);
+    digitalWrite(LED_AMARELO, LOW);
+    digitalWrite(LED_VERMELHO, LOW);
   }
 
-  // Monta payload JSON simples
-  char msg[120];
-  snprintf(msg, sizeof(msg), "{\"temp\":%.1f,\"hum\":%.1f,\"light\":%d}", data.temperature, data.humidity, lightLevel);
-  client.publish("smartdesk/data", msg);
-
-  delay(5000); // espera 5s antes da próxima coleta
+  delay(2000); // Espera 2 segundos antes de fazer nova leitura
 }
+
 
