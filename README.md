@@ -26,12 +26,24 @@ As informações são mostradas no **Monitor Serial**, e o circuito foi desenvol
 
 ---
 
-## 🖥️ Simulação
-🔗 **Projeto no Wokwi:** [Clique aqui](https://wokwi.com/projects/SEU-LINK-AQUI)
+## Como testar no Wokwi
+1. Abra o link do Wokwi: (veja `edge/wokwi_link.txt`)  
+2. Clique em **Start Simulation**.  
+3. Abra o Serial Monitor e observe as leituras; veja os LEDs mudarem conforme as condições.
 
----
+Link da simulação: https://wokwi.com/projects/447462756615539713
+
+## Arquivos relevantes
+- `edge/smartdesk.ino` — código (versão para simulação)
+- `edge/wokwi_link.txt` — link da simulação
+- `images/` — screenshots do circuito 
+- `ppt/` — slides para o vídeo
+- `video/` — link do vídeo no YouTube (inserir após envio)
 
 ## 👨‍💻 Autor
-**Breno Henrique Bortoloti — RMXXXXXX**  
+**Breno Henrique Bortoloti — RM562856**  
+**Pedro Cunha Coutinho — RM562191** 
+**Pedro Henrique dos Santos — RM564188** 
+
 Disciplina: **Edge Computing & Computer Systems**  
 FIAP — 2º semestre de 2025
