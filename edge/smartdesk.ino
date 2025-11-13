@@ -1,3 +1,14 @@
+/*
+  Projeto: SmartDesk — Monitoramento de Ambiente de Trabalho
+  Descrição: Monitora temperatura, umidade e luminosidade, acendendo LEDs
+              para indicar se o ambiente está confortável, de atenção ou ruim.
+  Integrantes: 
+    - Breno Henrique Bortoloti (RM562856)
+    - Pedro Cunha Coutinho (RM562191)
+    - Pedro Henrique dos Santos (RM564188)
+  Disciplina: Edge Computing & Computer Systems — FIAP 2025
+*/
+
 #include <DHT.h>
 
 // Definindo os pinos dos componentes
