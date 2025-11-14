@@ -48,6 +48,9 @@ Link da simulação: https://wokwi.com/projects/447462756615539713
 
 ---
 
+## Vídeo da Apresentação
+Assista à demonstração completa do projeto: https://youtu.be/VlH3blcchmQ
+
 ## Arquivos relevantes
 - `edge/smartdesk.ino` — código (versão para simulação)
 - `edge/wokwi_link.txt` — link da simulação
