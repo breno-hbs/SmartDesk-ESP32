@@ -55,7 +55,6 @@ Assista à demonstração completa do projeto: https://youtu.be/VlH3blcchmQ
 - `edge/smartdesk.ino` — código (versão para simulação)
 - `edge/wokwi_link.txt` — link da simulação
 - `images/` — screenshots do circuito 
-- `ppt/` — slides para o vídeo
 - `video/` — link do vídeo no YouTube (inserir após envio)
 
 ---
